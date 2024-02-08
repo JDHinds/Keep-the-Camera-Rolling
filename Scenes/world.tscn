@@ -1,0 +1,97 @@
+[gd_scene load_steps=14 format=3 uid="uid://qlm12ylvc5ha"]
+
+[ext_resource type="Script" path="res://Scripts/Player.gd" id="1_gd0af"]
+[ext_resource type="PackedScene" uid="uid://urpigaofwjc3" path="res://Models/camera_modified.tscn" id="2_kqgx5"]
+[ext_resource type="Material" uid="uid://bgfdct7qwccbx" path="res://Materials/battery-100.material" id="3_6birr"]
+[ext_resource type="Texture2D" uid="uid://hd04nr42rwhq" path="res://Textures/wood.png" id="3_gqa4c"]
+[ext_resource type="PackedScene" uid="uid://blkjngw070pp6" path="res://Models/Batteries.blend" id="5_t8y0u"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jkxec"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_jbl5d"]
+sky_material = SubResource("ProceduralSkyMaterial_jkxec")
+
+[sub_resource type="Environment" id="Environment_13m0j"]
+background_mode = 2
+sky = SubResource("Sky_jbl5d")
+glow_enabled = true
+glow_bloom = 0.07
+glow_blend_mode = 0
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.01
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7pb4o"]
+radius = 0.75
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_c15tj"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_q77x0"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aoec0"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_q77x0")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_igtct"]
+albedo_texture = ExtResource("3_gqa4c")
+
+[node name="World" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_13m0j")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.55627, 0)
+script = ExtResource("1_gd0af")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("CapsuleShape3D_7pb4o")
+
+[node name="Head" type="Node3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D/Head"]
+
+[node name="Recorder" parent="CharacterBody3D/Head/Camera3D" instance=ExtResource("2_kqgx5")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0.4, -0.25, -0.5)
+
+[node name="RecorderEyepiece" type="MeshInstance3D" parent="CharacterBody3D/Head/Camera3D/Recorder"]
+transform = Transform3D(0.008, 0, 0, 0, -3.49691e-10, -0.008, 0, 0.008, -3.49691e-10, -0.00833832, 0.139617, 0.101998)
+mesh = SubResource("PlaneMesh_c15tj")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_aoec0")
+
+[node name="RecorderBatteryUI" type="MeshInstance3D" parent="CharacterBody3D/Head/Camera3D/Recorder"]
+transform = Transform3D(1.91069e-18, 4.37114e-11, 0.001, 0.001, -4.37114e-11, 0, 4.37114e-11, 0.001, -4.37114e-11, -0.00595564, 0.142426, 0.103)
+mesh = SubResource("PlaneMesh_c15tj")
+skeleton = NodePath("")
+surface_material_override/0 = ExtResource("3_6birr")
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="CharacterBody3D/Head/Camera3D/Recorder"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.00524385, 0.0810319, -0.124179)
+remote_path = NodePath("../../../../../SubViewport/RecorderCamera")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+use_collision = true
+size = Vector3(100, 0.01, 100)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+material_override = SubResource("StandardMaterial3D_igtct")
+use_collision = true
+size = Vector3(1, 2.90146, 1)
+
+[node name="SubViewport" type="SubViewport" parent="."]
+render_target_update_mode = 4
+
+[node name="RecorderCamera" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.389512, 2.96833, -0.748358)
+near = 0.04
+
+[node name="Batteries" parent="." instance=ExtResource("5_t8y0u")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0.356002, 1.45073, -0.460878)

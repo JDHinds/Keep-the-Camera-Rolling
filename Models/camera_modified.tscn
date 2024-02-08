@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://urpigaofwjc3"]
+
+[ext_resource type="PackedScene" uid="uid://cvxpqjtwmaiyl" path="res://Models/Camera.blend" id="1_o0soe"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s2v2x"]
+transparency = 1
+albedo_color = Color(0.501961, 0.501961, 0.501961, 0.109804)
+metallic = 1.0
+roughness = 0.0
+
+[node name="Camera" instance=ExtResource("1_o0soe")]
+
+[node name="Backlens_Lowpoly" parent="Lowpoly" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_s2v2x")
