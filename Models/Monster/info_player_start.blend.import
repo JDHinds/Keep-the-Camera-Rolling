@@ -3,18 +3,18 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://blkjngw070pp6"
-path="res://.godot/imported/Batteries.blend-1b3327ed0a6232e39876fbafc8cb1c83.scn"
+uid="uid://bf6hb7fcu232m"
+path="res://.godot/imported/info_player_start.blend-3f593e37725402556a4293e5c9de81c3.scn"
 
 [deps]
 
-source_file="res://Models/Batteries.blend"
-dest_files=["res://.godot/imported/Batteries.blend-1b3327ed0a6232e39876fbafc8cb1c83.scn"]
+source_file="res://Models/Monster/info_player_start.blend"
+dest_files=["res://.godot/imported/info_player_start.blend-3f593e37725402556a4293e5c9de81c3.scn"]
 
 [params]
 
-nodes/root_type="Node3D"
-nodes/root_name="Scene Root"
+nodes/root_type=""
+nodes/root_name=""
 nodes/apply_root_scale=true
 nodes/root_scale=1.0
 meshes/ensure_tangents=true
@@ -30,7 +30,7 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 import_script/path=""
 _subresources={}
-gltf/naming_version=0
+gltf/naming_version=1
 gltf/embedded_image_handling=1
 blender/nodes/visible=0
 blender/nodes/punctual_lights=true
